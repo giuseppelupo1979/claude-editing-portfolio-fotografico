@@ -182,7 +182,7 @@ class Libro:
                              self.f_sotto, largh, INCHIOSTRO, 1.3)
         self.pagine.append(tela)
 
-    def spread(self, sx, dx, per_id, base, con_didasc, numero):
+    def spread(self, sx, dx, per_id, base, con_didasc, numero, usa_descrizione=False):
         tela, d = self.nuova()
         for lato, ident in (("sx", sx), ("dx", dx)):
             if not ident:
@@ -192,7 +192,8 @@ class Libro:
                 continue
             rel = im.get("thumb") or im.get("file")
             p = rel if os.path.isabs(rel) else os.path.join(base, rel)
-            self.posa(tela, d, p, lato, im.get("didascalia", ""), ident, con_didasc)
+            testo = im.get("descrizione", "") if usa_descrizione else im.get("didascalia", "")
+            self.posa(tela, d, p, lato, testo, ident, con_didasc)
         d.text((self.margine, self.ph - self.margine + int(self.ph * 0.012)),
                "%d" % (numero * 2), font=self.f_mini, fill=(206, 204, 200))
         larg_num = d.textlength("%d" % (numero * 2 + 1), font=self.f_mini)
@@ -241,6 +242,8 @@ def main():
     ap.add_argument("--pagina", default="21x26", help="larghezza x altezza in cm della singola pagina")
     ap.add_argument("--dpi", type=int, default=150)
     ap.add_argument("--senza-didascalie", action="store_true")
+    ap.add_argument("--con-descrizioni", action="store_true",
+                    help="usa la descrizione al posto della didascalia: menabo' di lavoro, non da stampa")
     ap.add_argument("--copertina", default=None, help="id dell'immagine di copertina")
     args = ap.parse_args()
 
@@ -278,7 +281,7 @@ def main():
     libro.frontespizio(prog)
     for n, coppia in enumerate(sequenza, 1):
         sx, dx = (list(coppia) + [None, None])[:2]
-        libro.spread(sx, dx, per_id, base, not args.senza_didascalie, n)
+        libro.spread(sx, dx, per_id, base, not args.senza_didascalie, n, args.con_descrizioni)
     if prog.get("statement"):
         libro.testo_pagina("Nota", prog["statement"])
     if prog.get("fil_rouge"):

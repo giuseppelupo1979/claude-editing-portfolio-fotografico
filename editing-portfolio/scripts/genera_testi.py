@@ -194,6 +194,25 @@ def controlla(dati, ids_tavole, pmin, pmax):
         if var < 1.0:
             avvisi.append(("didascalie", "Tutte della stessa lunghezza (media %.1f parole, varianza %.2f): la voce suona meccanica." % (media, var)))
 
+    # descrizioni: valgono per OGNI immagine analizzata, non solo per quelle dell'edit
+    viste_desc = {}
+    for im in dati.get("immagini") or []:
+        ident = im["id"]
+        d = (im.get("descrizione") or "").strip()
+        if not d:
+            avvisi.append((ident, "Descrizione mancante. Ogni immagine sottoposta deve averne una: cosa si vede e cosa fa fotograficamente."))
+            continue
+        n = len(parole(d))
+        if n < 30:
+            avvisi.append((ident, "Descrizione di %d parole: sotto le 30 non arriva al significato fotografico, si ferma all'inventario." % n))
+        elif n > 100:
+            avvisi.append((ident, "Descrizione di %d parole: oltre le 100 diventa una scheda critica, e quella sta altrove." % n))
+        chiave = re.sub(r"\W+", " ", d.lower()).strip()
+        if chiave in viste_desc:
+            avvisi.append((ident, "Descrizione identica a quella di %s." % viste_desc[chiave]))
+        else:
+            viste_desc[chiave] = ident
+
     if registro != "muto":
         visti = {}
         for ident in ids_tavole:
@@ -250,6 +269,15 @@ def scrivi(dati, ids_tavole, fonte_ordine, avvisi, segnaposto, percorso):
         im = per_id.get(ident) or {}
         R.append("**Tavola %d** (%s, `%s`)  " % (n, ident, im.get("file", "")))
         R.append("%s\n" % (im.get("didascalia") or "_manca_"))
+
+    con_desc = [i for i in (dati.get("immagini") or []) if (i.get("descrizione") or "").strip()]
+    if con_desc:
+        R.append("## Descrizioni\n")
+        R.append("Cosa si vede e cosa fa fotograficamente. Una per ogni immagine analizzata, "
+                 "%d su %d.\n" % (len(con_desc), len(dati.get("immagini") or [])))
+        for im in sorted(con_desc, key=lambda x: x["id"]):
+            R.append("**%s** (`%s`)  " % (im["id"], im.get("file", "")))
+            R.append("%s\n" % im["descrizione"].strip())
 
     if segnaposto:
         R.append("## Segnaposto da compilare, %d\n" % len(segnaposto))

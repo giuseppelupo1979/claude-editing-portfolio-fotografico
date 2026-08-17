@@ -69,6 +69,15 @@ ragionata: dove divergono c'è informazione editoriale vera (vedi sotto).
 ognuna sui sei assi. Le metriche del passo F1 sono dati, non verdetti: servono ad
 ancorare i giudizi, mai a sostituirli.
 
+Qui scrivi anche la **descrizione di ogni immagine**, e questo vale per tutte quelle
+che l'utente ti ha sottoposto, scarti compresi: da 30 a 100 parole in un paragrafo,
+cosa si vede (inventario con le zone del fotogramma, nessun aggettivo valutativo) e
+cosa fa fotograficamente (quale decisione fra distanza, momento, luce, geometria e
+trattamento ha prodotto l'immagine, e cosa ottiene o manca). La descrizione
+accompagna l'immagine ovunque compaia, non è un campo facoltativo, e non va confusa
+con la didascalia editoriale della fase F5: sono due testi diversi, e la tabella che
+li distingue apre `references/didascalie.md`.
+
 **F4. Lettura d'insieme.** Fil rouge a tre livelli, cluster, ridondanze, lacune,
 firma d'autore, difetti ricorrenti. Qui leggi `references/connettori.md`.
 
@@ -82,8 +91,10 @@ Poi i testi, che non sono un accessorio e non si saltano mai. Leggi
 2. **l'introduzione alla raccolta**, da 250 a 500 parole, registro dichiarato, nei
    quattro movimenti (scena, fatto, scoperta, limite);
 3. **lo statement**, da 60 a 120 parole, che è un'altra cosa e non la sostituisce;
-4. **la didascalia di ogni immagine dell'edit**, tutte in un blocco unico e
-   nell'ordine di sequenza, in un solo registro dichiarato.
+4. **la didascalia editoriale di ogni immagine dell'edit**, tutte in un blocco unico
+   e nell'ordine di sequenza, in un solo registro dichiarato. È il testo che va
+   stampato accanto alla fotografia, e non descrive: le descrizioni le hai già
+   scritte in F3, e servono a un altro scopo.
 
 Le didascalie sono obbligatorie per ogni immagine che entra nell'edit, nella
 sequenza o in una galleria. Sugli scarti sono facoltative. Non scriverle una per una
@@ -288,7 +299,8 @@ giudicare, gli script fanno i conti e l'impaginazione. Struttura minima:
       "forza_principale": "una frase",
       "limite_principale": "una frase",
       "cluster": ["attese"],
-      "didascalia": "obbligatoria per ogni immagine dell'edit, nel registro dichiarato",
+      "descrizione": "obbligatoria per OGNI immagine, 30 a 100 parole: cosa si vede e cosa fa fotograficamente",
+      "didascalia": "solo per le immagini dell'edit, nel registro dichiarato",
       "registro_tonale": "scuro",
       "densita": "alta",
       "cieco": "esca"
@@ -343,7 +355,7 @@ ridondanti. Nessun report critico, nessun voto sui sei assi. Massimo 900 parole.
 ### `insieme` (predefinita)
 1. Modalità, numero di immagini, cosa hai guardato e a che risoluzione.
 2. Passaggio cieco: le tre che fermano l'occhio, le tre che scivolano, la frase.
-3. Tabella sintetica, una riga per immagine: id, genere, voto, verdetto, ruolo, forza, limite (massimo 25 parole per riga).
+3. Tabella sintetica, una riga per immagine: id, genere, voto, verdetto, ruolo, forza, limite (massimo 25 parole per riga). La descrizione di ciascuna immagine non sta qui: sta accanto alla miniatura nel provino e per esteso in `testi.md`.
 4. Fil rouge a tre livelli, con la prova di robustezza (vedi `references/connettori.md`).
 5. Cluster tematici, ciascuno con tre nomi candidati e il registro dichiarato.
 6. Ridondanze misurate e lacune del progetto.
@@ -440,8 +452,11 @@ Leggili quando servono, non tutti insieme.
 - I difetti ricorrenti hanno una frequenza numerica, non un aggettivo.
 - Ogni cluster e ogni galleria hanno un nome che non compare nella lista nera di
   `references/didascalie.md`.
-- Ogni immagine dell'edit ha la sua didascalia, tutte nello stesso registro, e il
-  registro è dichiarato in `progetto.registro_didascalie`.
+- **Ogni immagine sottoposta ha la sua descrizione**, scarti compresi, e la
+  descrizione compare accanto alla miniatura in tutti i punti in cui parli di quella
+  immagine: provino, sequenza, cluster, scarti, report, `testi.md`.
+- Ogni immagine dell'edit ha anche la sua didascalia editoriale, tutte nello stesso
+  registro, e il registro è dichiarato in `progetto.registro_didascalie`.
 - Ci sono i tre titoli candidati, l'introduzione (250 a 500 parole) e lo statement
   (60 a 120), e sono tre testi distinti che non si ripetono a vicenda.
 - `genera_testi.py` è stato eseguito, gli avvisi sono stati risolti o motivati, e i

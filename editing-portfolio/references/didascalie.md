@@ -1,8 +1,25 @@
-# Titoli, didascalie, statement
+# Titoli, descrizioni, didascalie, statement
 
-Il testo che accompagna le fotografie può salvarle o affondarle. La regola che
-governa tutto: **il testo non descrive l'immagine**. Se dice quello che si vede, il
-lettore lo legge, si sente sciocco e smette di guardare.
+## Due testi per ogni immagine, e non vanno confusi
+
+Sono due oggetti diversi, con due destinatari diversi, e questo è l'equivoco più
+frequente di tutto il lavoro. Scrivili sempre entrambi.
+
+| | `descrizione` | `didascalia` |
+|---|---|---|
+| **per chi** | per l'autore, mentre lavora | per il lettore, nel libro o in mostra |
+| **cosa dice** | cosa si vede e cosa fa fotograficamente | quel poco che la fotografia non può contenere |
+| **quante** | una per **ogni** immagine analizzata, scarti compresi | solo per le immagini che entrano nell'edit |
+| **lunghezza** | da 30 a 100 parole | da 5 a 25, o solo luogo e data nel registro muto |
+| **descrive?** | sì, è il suo compito | mai |
+| **dove finisce** | provino, sequenza, cluster, scarti, report, `testi.md` | sotto la fotografia stampata, nell'indice delle tavole |
+| **regole** | sezione 12 | sezioni 1, 2, 3 |
+
+La regola "il testo non descrive l'immagine" vale per la **didascalia**, non per la
+descrizione. Nella didascalia, se dici quello che si vede, il lettore lo legge, si
+sente sciocco e smette di guardare. Nella descrizione, dire cosa si vede è
+esattamente il punto: serve a te per ricordare l'immagine senza riaprirla, e a
+chiunque legga l'analisi senza avere le fotografie davanti.
 
 ## Indice
 
@@ -17,6 +34,7 @@ lettore lo legge, si sente sciocco e smette di guardare.
 9. L'introduzione alla raccolta
 10. Procedura: scrivere tutte le didascalie in un blocco
 11. Il controllo automatico
+12. La descrizione di ogni immagine
 
 ## 1. I cinque registri di didascalia
 
@@ -303,3 +321,63 @@ a occhio solo quando è troppo tardi, cioè a testo impaginato.
 Gli avvisi non sono errori bloccanti e non vanno seguiti alla cieca: sono i punti da
 guardare. Un avviso che decidi di ignorare va ignorato consapevolmente, e se è una
 scelta di stile dillo all'utente invece di lasciarlo nel referto senza commento.
+
+## 12. La descrizione di ogni immagine
+
+**Va scritta per ogni immagine che ti viene sottoposta**, non solo per quelle che
+entrano nell'edit. Anche per gli scarti, e anzi soprattutto per quelli: un'immagine
+scartata senza descrizione è un'immagine su cui l'autore non può discutere con te.
+
+La descrizione accompagna l'immagine ovunque compaia: nel provino a contatto, nella
+vista sequenza, dentro i cluster, fra gli scarti, nel report e in `testi.md`. Se in
+un punto compare la miniatura e non compare la descrizione, quel punto è incompleto.
+
+### Due movimenti, un paragrafo solo
+
+**Primo, cosa si vede.** Inventario ordinato di ciò che c'è, con le posizioni nel
+fotogramma. Nessun aggettivo valutativo, nessuna interpretazione. Chi legge deve
+poter ricostruire l'immagine con gli occhi chiusi. Usa le zone (terzo sinistro, bordo
+inferiore, dietro la figura) e non i punti cardinali dell'emozione.
+
+**Secondo, cosa fa fotograficamente.** Non se è bella: quale decisione ha prodotto
+questa immagine e cosa ottiene o manca. Le decisioni fotografiche sono sempre le
+stesse cinque, e in una descrizione ne nomini una o due, quelle che contano qui:
+
+1. **distanza e focale**: dove si è messo l'autore, e cosa comporta;
+2. **momento**: prima, durante o dopo l'azione, e cosa cambierebbe altrove;
+3. **luce**: direzione, durezza, cosa separa e cosa fonde;
+4. **geometria**: cosa tiene il peso, dove va l'occhio, cosa lo trattiene;
+5. **trattamento**: bianco e nero, contrasto, grana, colore, e se serve l'immagine.
+
+Chiudi indicando **il gesto fotografico**: la cosa che questa fotografia fa e che
+un'altra non farebbe. Una frase, senza retorica.
+
+### Regole
+
+- Da 30 a 100 parole. Sotto le 30 resta un inventario, sopra le 100 diventa una
+  scheda critica, e la scheda critica sta in `critica-fotografica`.
+- Presente indicativo.
+- Nessun voto e nessun verdetto: quelli stanno nei sei assi, in `forza_principale` e
+  in `limite_principale`, e ripeterli qui raddoppia il rumore.
+- Non nominare luoghi, persone o eventi di cui non hai certezza. Vale il divieto
+  generale: `[luogo]` come segnaposto, oppure descrivi ciò che vedi ("un edificio a
+  più tetti sovrapposti") senza dargli un nome.
+- Ogni descrizione deve poter stare da sola. Non scrivere "come nella precedente" o
+  "stesso soggetto di P004": nel provino le immagini si filtrano e si riordinano, e
+  quel riferimento si rompe.
+- Due descrizioni non possono essere uguali. Se lo sono, o le immagini sono
+  ridondanti (e allora è una scoperta, dillo) o non hai guardato.
+
+### Esempio della differenza
+
+**Descrizione** (per te, 62 parole): "Interno di ristorante. Il cuoco occupa il terzo
+sinistro, testa china sulla piastra, spatole in mano; a destra una tenda nera chiude
+il fotogramma e in primo piano il bancone porta piatti, bicchieri e un braccio
+tagliato dal bordo. Il bianco e nero e i neri pieni a destra isolano la figura dentro
+una scena affollata: il gesto è aspettare che il lavoro assorba il soggetto invece di
+chiedergli di posare."
+
+**Didascalia** (per il lettore, registro muto): "[luogo], 8 luglio 2014."
+
+**Da non scrivere mai**, in nessuno dei due: "Splendido ritratto di un cuoco intento
+nel suo lavoro, che trasmette tutta l'atmosfera del Giappone autentico."
