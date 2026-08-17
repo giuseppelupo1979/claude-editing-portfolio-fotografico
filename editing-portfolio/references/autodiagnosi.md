@@ -87,6 +87,17 @@ Ordinati per quanto spesso si trovano in insiemi di fotografi avanzati.
     differenze di luce reale fra le scene.
 
 **Di trattamento e post produzione**
+
+> **Come si dimostra una manipolazione, e come non si dimostra.** Due immagini
+> incoerenti provano che una delle due è alterata, mai quale. Per stabilire la
+> direzione servono elementi che non possono cambiare (sempreverdi, incarnati,
+> superfici dipinte), marcatori di stagione o di ora interni all'immagine, i residui
+> lasciati dall'intervento (una rotazione di gamma risparmia ciò che stava fuori
+> gamma: quei superstiti sono la firma), oppure la parsimonia sull'insieme. Finché non
+> hai uno di questi, scrivi `[RICAVATO]` e dillo. E quando la manipolazione è
+> accertata, non trattarla come una colpa: è una scelta d'autore, e il rilievo
+> semmai è che faccia il lavoro che doveva fare l'occhio.
+
 11. Ricetta unica applicata a tutto, riconoscibile da valori di `contrasto` e
     `saturazione_media` molto simili su scene diversissime `[MISURATO]`.
 12. Nitidezza eccessiva, aloni sui contorni.

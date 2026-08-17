@@ -157,6 +157,25 @@ delle cose, quindi la distinzione diventa possibile e obbligatoria.
 - **INTERPRETATO**: lettura narrativa o simbolica. Basta dichiararlo a inizio sezione.
 - **NON DETERMINABILE**: dillo, non aggirarlo con una formula vaga.
 
+**Una misura di incoerenza non identifica il termine anomalo.** Se due dati non
+possono stare insieme (due scatti dello stesso soggetto a venti minuti di distanza con
+il fogliame di colore diverso, due esposizioni incompatibili con la stessa luce, una
+data che contraddice una stagione), la misura prova che **uno dei due** è alterato, non
+**quale**. La direzione è sempre una deduzione, e va marcata `[RICAVATO]` finché non
+trovi un ancoraggio indipendente.
+
+Gli ancoraggi che funzionano, in ordine di forza: un elemento che **non può cambiare**
+(un sempreverde non è mai rosso, una pelle non è mai verde, un intonaco dipinto non
+cambia tinta fra due scatti); un **marcatore stagionale o orario** interno
+all'immagine (un fiore che sboccia solo in certi mesi, un'ombra che dice l'ora); il
+**residuo della manipolazione** (una rotazione di gamma cromatica lascia intatto ciò
+che stava fuori dalla gamma, e quei superstiti sono la firma dell'intervento); la
+**parsimonia** (in una cartella di diciassette immagini è più probabile che siano
+alterate le due anomale che le quindici concordi).
+
+Trovato l'ancoraggio, la conclusione diventa dimostrata e va scritta con l'ancoraggio
+accanto, non con la misura di incoerenza da cui eri partito.
+
 Attenzione al rovescio: un numero non è un giudizio. Un contrasto basso
 `[MISURATO]` non è un difetto se l'immagine cerca la piattezza. La nitidezza
 misurata bassa su un mosso voluto è una conferma, non un rilievo.
