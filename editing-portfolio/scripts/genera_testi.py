@@ -226,6 +226,38 @@ def controlla(dati, ids_tavole, pmin, pmax):
         if var < 1.0:
             avvisi.append(("didascalie", "Tutte della stessa lunghezza (media %.1f parole, varianza %.2f): la voce suona meccanica." % (media, var)))
 
+    # sequenza: copertina e ragioni del ritmo, obbligatorie quando c'e' un ordine
+    seq = dati.get("sequenza") or {}
+    if seq.get("spread"):
+        if not prog.get("copertina"):
+            avvisi.append(("copertina", "Nessuna copertina proposta. Va sempre indicata, ed e' una scelta distinta dall'apertura."))
+        elif not prog.get("copertina_motivazione"):
+            avvisi.append(("copertina", "Copertina indicata senza motivazione: perche' questa e non l'apertura?"))
+        if len(prog.get("copertina_alternative") or []) < 2:
+            avvisi.append(("copertina", "Servono almeno due alternative di copertina, ciascuna col motivo per cui perde."))
+        if prog.get("copertina") and prog["copertina"] not in per_id:
+            avvisi.append(("copertina", "La copertina %s non esiste fra le immagini." % prog["copertina"]))
+        if not seq.get("ritmo"):
+            avvisi.append(("ritmo", "Manca la stringa del ritmo in sequenza.ritmo."))
+        else:
+            codici = seq["ritmo"].split()
+            attesi = len(seq["spread"])
+            reali = [c for c in codici if c != "|"]
+            if len(reali) != attesi:
+                avvisi.append(("ritmo", "%d codici di ritmo per %d spread: devono corrispondere." % (len(reali), attesi)))
+            if reali and reali[-1][0] == "M":
+                avvisi.append(("ritmo", "L'ultimo spread e' M: le chiusure funzionano in alto (A) o in basso (B), mai a meta'."))
+            for k in range(len(reali) - 2):
+                if reali[k][0] == reali[k+1][0] == reali[k+2][0] == "A":
+                    avvisi.append(("ritmo", "Tre A di fila agli spread %d, %d, %d: dal terzo picco il lettore non sente piu' i picchi." % (k+1, k+2, k+3)))
+        if not seq.get("ritmo_perche"):
+            avvisi.append(("ritmo", "Manca sequenza.ritmo_perche: la forma va motivata a partire dal materiale, non dal gusto."))
+        if len(seq.get("alternative") or []) < 2:
+            avvisi.append(("ritmo", "Servono da due a tre alternative di sequenza scartate, con la loro stringa e il motivo."))
+        multi = sum(1 for c in seq["spread"] for pag in c if isinstance(pag, list) and len(pag) > 1)
+        if multi and multi > max(1, len(seq["spread"]) // 4):
+            avvisi.append(("sequenza", "%d pagine con piu' immagini su %d spread: se sono la norma non e' un libro, e' un provino stampato." % (multi, len(seq["spread"]))))
+
     # descrizioni: valgono per OGNI immagine analizzata, non solo per quelle dell'edit
     viste_desc = {}
     for im in dati.get("immagini") or []:

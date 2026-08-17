@@ -406,6 +406,16 @@ del libro con tre candidati e registro, sequenza a spread con notazione del ritm
 motivazione di ogni passaggio di movimento (non di ogni pagina), apertura e chiusura
 argomentate, dummy PDF generato.
 
+Tre cose che non si omettono mai, e che sono descritte in `references/sequenza.md`,
+sezioni 11, 12 e 13:
+
+- **la copertina**, con la motivazione e almeno due alternative, dichiarata come scelta
+  distinta dall'apertura;
+- **il perché del ritmo** (`ritmo_perche`) e da due a tre **alternative scartate**,
+  ciascuna con la propria stringa e il motivo del rifiuto;
+- **le pagine con più immagini**, se le usi, dichiarate come affermazione e verificate
+  contro le cinque condizioni, non usate per far entrare più materiale.
+
 I testi qui sono parte del libro, non un allegato: l'introduzione va posizionata
 (prima delle tavole se il lavoro ha bisogno di un ingresso, dopo se le fotografie
 reggono da sole, e la seconda è quasi sempre la scelta migliore), e le didascalie
@@ -504,6 +514,11 @@ Leggili quando servono, non tutti insieme.
   `device_list_dir` che ci sono davvero, elencandoli con il percorso. Se non hai
   potuto scrivere sul disco, l'hai detto in una riga spiegando perché.
 - `analisi.json` è fra i file scritti sul disco, non solo in chat.
+- Se c'è una sequenza: la copertina è proposta con motivazione e almeno due
+  alternative, il ritmo ha la sua legenda e il suo `ritmo_perche`, e ci sono da due a
+  tre alternative scartate con stringa e motivo.
+- Ogni pagina con più di una immagine regge le cinque condizioni di
+  `references/sequenza.md`, sezione 11.
 - Nessun trattino lungo nel testo.
 
 **Criterio di successo:** il report funziona se dice all'autore almeno una cosa sul

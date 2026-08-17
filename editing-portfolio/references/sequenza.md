@@ -17,6 +17,9 @@ girata di pagina.
 8. Sequenza a parete, che è un'altra cosa
 9. Sequenza per scorrimento su schermo
 10. Come verificare una sequenza
+11. Più immagini sulla stessa pagina
+12. La copertina
+13. Dichiarare le ragioni e le alternative
 
 ## 1. L'unità non è la foto, è lo spread
 
@@ -29,6 +32,7 @@ derivano quasi tutte le regole:
 - **Immagine a doppia pagina**: solo per immagini che sopportano la piega al centro.
   Mai su un volto, mai su un soggetto centrale, mai su un dettaglio decisivo. Usala
   al massimo due o tre volte in un libro, per i cambi di movimento.
+- **Più immagini sulla stessa pagina**: consentito, con regole precise. Vedi sezione 11.
 - **Coppia affiancata**: le due immagini si guardano. Va usata quando la relazione
   fra le due aggiunge un terzo significato, mai per riempire. Attenzione alle
   direzioni: due figure che guardano verso l'esterno spingono il lettore fuori dal
@@ -230,3 +234,93 @@ Fai queste quattro verifiche e riportane l'esito in poche righe.
 4. **Prova del riassunto.** Racconta la sequenza in tre frasi come se fosse una
    storia. Se ti serve nominare più di cinque immagini per farlo, l'architettura non
    è leggibile.
+
+## 11. Più immagini sulla stessa pagina
+
+Non è un modo per far entrare più materiale: è un'affermazione. Mettere due o tre
+fotografie sulla stessa pagina dice al lettore **leggile insieme**, e se non c'è un
+senso che nasce dall'accostamento la pagina sembra soltanto un collage.
+
+Nel contratto si scrive come lista al posto del singolo id:
+`[null, ["P020", "P021"]]` significa pagina sinistra bianca e due immagini impilate
+sulla destra.
+
+Le cinque condizioni. Se non le soddisfi tutte, torna a una immagine per pagina.
+
+1. **Le immagini dicono la stessa cosa in due modi.** Non due soggetti diversi: due
+   prove della stessa affermazione. Il caso tipico sono due fotografie che, separate,
+   sembrerebbero ridondanti, e accostate diventano un'evidenza.
+2. **Nessuna delle due perde a essere piccola.** Su una pagina divisa in due ogni
+   immagine ha meno della metà dell'altezza utile. Un'immagine che vive di
+   microdettaglio o che ha un soggetto piccolo dentro il fotogramma non regge: quelle
+   restano a piena pagina.
+3. **Formati compatibili.** Due orizzontali si impilano bene, due verticali male (o
+   diventano minuscole o si affiancano e leggono come un panorama unico). Un
+   orizzontale sopra un verticale è quasi sempre sbilanciato.
+4. **Le due didascalie non si somigliano.** Stando vicine, le ripetizioni si vedono
+   subito: qui il controllo automatico di `genera_testi.py` conta davvero, perché
+   confronta le didascalie contigue e sulla stessa pagina la contiguità è massima.
+5. **Non più di una volta ogni quattro o cinque spread.** Se le pagine multiple sono
+   la norma, non stai impaginando un libro: stai facendo un provino stampato.
+
+Quando conviene davvero: per rendere visibile la tesi di un cluster (due immagini
+dello stesso nucleo, accostate, dicono il tema meglio di una didascalia), e per
+chiudere un movimento senza aggiungere uno spread intero.
+
+Quando non conviene: nelle prime due doppie pagine, dove il lettore sta ancora
+imparando il ritmo, e nell'ultima, dove la chiusura deve essere una sola cosa.
+
+## 12. La copertina
+
+**Va sempre proposta, con la motivazione e almeno due alternative**, e non coincide
+con l'apertura: sono due mestieri diversi. L'apertura lavora dentro la sequenza,
+quando il lettore ha già il libro in mano e ha deciso di guardarlo. La copertina
+lavora prima, quando deve convincerlo ad aprirlo, e la incontra su un tavolo di
+libreria, in una miniatura su uno schermo, o di sbieco su uno scaffale.
+
+I cinque criteri, in ordine di peso:
+
+1. **Tiene in piccolo.** Deve funzionare a pochi centimetri e come anteprima. Prova:
+   guardala a 200 px di lato lungo (le griglie di `prepara_provino.py` vanno bene per
+   questo). Se non capisci cosa è, non è una copertina.
+2. **Ha una zona pulita per il titolo.** Serve un'area piena e uniforme, non
+   necessariamente vuota: un muro, un cielo, un'ombra, una parete. Un'immagine
+   affollata da bordo a bordo costringe a mettere il titolo su una fascia esterna, e
+   allora la copertina la fa il grafico, non tu.
+3. **Regge fuori contesto.** Nessuno l'ha ancora messa in relazione con le altre.
+   Un'immagine che ha bisogno del progetto per significare qualcosa non va in
+   copertina, e in questo la copertina somiglia al web e non al libro.
+4. **Incuriosisce senza raccontare.** Se dice tutto, il libro è già finito. Le figure
+   di spalle, i gesti interrotti e le situazioni non risolte funzionano per questo.
+5. **Appartiene al tono.** Non deve promettere un altro libro: una copertina più
+   spettacolare del contenuto produce delusione a pagina tre.
+
+Conseguenza pratica quasi sempre vera: **la copertina non è la fotografia migliore**.
+La migliore va protetta dentro il libro, dove il lettore la incontra impreparato. In
+`analisi.json` la copertina si dichiara in `progetto.copertina`, la ragione in
+`copertina_motivazione`, e le alternative in `copertina_alternative`, ciascuna con il
+motivo per cui perde. Se proponi la stessa immagine come copertina e come apertura,
+devi giustificare perché in quel caso i due compiti coincidono.
+
+## 13. Dichiarare le ragioni e le alternative
+
+Una sequenza consegnata senza le sue ragioni sembra l'unica possibile, e non lo è mai.
+Quindi, insieme all'ordine, consegna sempre tre cose.
+
+**La stringa del ritmo con la sua legenda.** Non basta la stringa: chi la legge fra
+sei mesi deve trovare accanto il significato dei due caratteri e i difetti da cercare
+(sezione 2). Se produci una pagina o un documento, la legenda va dentro, non altrove.
+
+**Il perché di questa forma.** Una o due frasi che spiegano quale caratteristica del
+materiale ha imposto questa struttura, non quale ti piace. Le formulazioni utili
+partono dal materiale: mancano le pause, quindi non posso alternare; ci sono due
+nature distinte, quindi vado a movimenti; il soggetto ritorna tre volte, quindi
+spirale.
+
+**Da due a tre alternative scartate**, ciascuna con la propria stringa e il motivo del
+rifiuto. Serve a tre cose che valgono più della sequenza stessa: mostra all'autore che
+la forma è una scelta, gli dà una strada già pronta quando il materiale cambierà, e
+costringe te a verificare che la struttura scelta sia davvero la migliore invece della
+prima che ti è venuta. Formula i rifiuti in modo condizionale quando puoi: "questa
+diventa la scelta giusta appena avrai tre immagini di respiro" vale più di "questa non
+funziona".
