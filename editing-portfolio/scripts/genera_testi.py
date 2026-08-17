@@ -51,6 +51,12 @@ DESCRITTIVI = [
 VIETATE_TESTI = [
     "emozioni", "ho voluto", "raccontare", "indagare", "poesia", "poetica",
 ]
+GIUDIZI = [
+    "la decisione è", "la decisione e", "il gesto fotografico", "ottiene", "non ottiene",
+    "manca", "riesce", "fallisce", "debole", "il limite", "il difetto", "errore",
+    "avrebbe dovuto", "sarebbe stato meglio", "non funziona", "funziona bene",
+    "purtroppo", "peccato che", "andava", "sbagliato",
+]
 CHIUSURE_RIASSUNTIVE = [
     "in conclusione", "in definitiva", "riassumendo", "questo lavoro vuole",
     "questo progetto vuole", "in fin dei conti",
@@ -60,6 +66,9 @@ che chi cui non ne ci vi si mi ti come quando dove perché più meno molto poco 
 tutti tutte questo questa questi queste quel quella quei quelle è era sono ero c'è
 del della dei delle dal dalla al alla allo agli alle nel nella nei nelle sul sulla
 suo sua loro mio mia anche ancora già solo dopo prima sopra sotto verso""".split())
+
+MESI = ("gennaio febbraio marzo aprile maggio giugno luglio agosto settembre "
+        "ottobre novembre dicembre").split()
 
 ASSI_ORDINE = ("sequenza", "galleria", "id")
 
@@ -162,6 +171,11 @@ def controlla(dati, ids_tavole, pmin, pmax):
         if registro == "muto":
             if len(p) > 8:
                 avvisi.append((ident, "Registro muto dichiarato ma la didascalia ha %d parole: il muto è luogo e data." % len(p)))
+        elif registro == "descrittivo":
+            if len(p) < 15:
+                avvisi.append((ident, "Solo %d parole: nel registro descrittivo il lettore si aspetta una frase compiuta." % len(p)))
+            if len(p) > 50:
+                avvisi.append((ident, "%d parole, oltre le 50: nel libro diventa un paragrafo e ruba spazio alla fotografia." % len(p)))
         else:
             if len(p) < pmin:
                 avvisi.append((ident, "Solo %d parole, sotto il minimo di %d." % (len(p), pmin)))
@@ -169,16 +183,23 @@ def controlla(dati, ids_tavole, pmin, pmax):
                 avvisi.append((ident, "%d parole, oltre il massimo di %d: non è una didascalia, è un testo." % (len(p), pmax)))
         for v in trova(d, VALUTATIVI):
             avvisi.append((ident, "Aggettivo valutativo: %s. La didascalia non giudica." % v))
-        for v in trova(d, DESCRITTIVI):
-            avvisi.append((ident, "Descrive quello che si vede: %s. Il lettore vede già." % v))
+        for v in trova(d, GIUDIZI):
+            avvisi.append((ident, "Giudizio da photo editor in una didascalia da pubblicare: \"%s\". Il lettore del libro non deve leggere la tua valutazione: spostala nella descrizione." % v))
+        if registro != "descrittivo":
+            for v in trova(d, DESCRITTIVI):
+                avvisi.append((ident, "Descrive quello che si vede: %s. Il lettore vede già." % v))
         if "?" in d:
             avvisi.append((ident, "Domanda retorica in didascalia."))
         for sp in re.findall(r"\[([^\]]+)\]", d):
             segnaposto.append((ident, sp))
         # le ripetizioni si controllano solo fuori dal registro muto: nel muto la
         # forma "luogo, data" è identica per costruzione, ed è giusto che lo sia.
+        # la coda "luogo, giorno mese anno" è identica per costruzione in molti
+        # registri: escluderla evita di segnalare ripetizioni che sono la forma.
         senza_segnaposto = re.sub(r"\[[^\]]*\]", " ", d)
-        pieno = [w for w in parole(senza_segnaposto) if w not in STOPWORD and len(w) > 3]
+        pieno = [w for w in parole(senza_segnaposto)
+                 if w not in STOPWORD and len(w) > 3 and w not in MESI
+                 and not re.fullmatch(r"\d{4}", w)]
         if registro != "muto":
             if precedenti and precedenti[-1] and p and precedenti[-1][0] == p[0]:
                 avvisi.append((ident, "Comincia con la stessa parola della didascalia precedente: %s." % p[0]))
@@ -333,4 +354,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except BrokenPipeError:
+        try:
+            sys.stdout.close()
+        except Exception:
+            pass

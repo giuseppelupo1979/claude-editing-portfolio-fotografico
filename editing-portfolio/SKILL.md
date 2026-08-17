@@ -282,7 +282,7 @@ giudicare, gli script fanno i conti e l'impaginazione. Struttura minima:
     "registro_introduzione": "scena madre",
     "statement": "da 60 a 120 parole, altra cosa dall'introduzione",
     "nota_autore": "opzionale, da 80 a 150 parole",
-    "registro_didascalie": "muto",
+    "registro_didascalie": "descrittivo",
     "cartella_thumbs": "thumbs"
   },
   "immagini": [
@@ -452,6 +452,10 @@ Leggili quando servono, non tutti insieme.
 - I difetti ricorrenti hanno una frequenza numerica, non un aggettivo.
 - Ogni cluster e ogni galleria hanno un nome che non compare nella lista nera di
   `references/didascalie.md`.
+- **Nessun giudizio nelle didascalie.** La descrizione di lavoro contiene la tua
+  valutazione ed è per l'autore; la didascalia va stampata sotto la fotografia e il
+  lettore non deve trovarci dentro il tuo verdetto. Se una didascalia contiene "la
+  decisione è", "ottiene", "manca", "debole", è finita nel posto sbagliato.
 - **Ogni immagine sottoposta ha la sua descrizione**, scarti compresi, e la
   descrizione compare accanto alla miniatura in tutti i punti in cui parli di quella
   immagine: provino, sequenza, cluster, scarti, report, `testi.md`.

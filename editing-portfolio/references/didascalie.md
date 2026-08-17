@@ -10,10 +10,11 @@ frequente di tutto il lavoro. Scrivili sempre entrambi.
 | **per chi** | per l'autore, mentre lavora | per il lettore, nel libro o in mostra |
 | **cosa dice** | cosa si vede e cosa fa fotograficamente | quel poco che la fotografia non può contenere |
 | **quante** | una per **ogni** immagine analizzata, scarti compresi | solo per le immagini che entrano nell'edit |
-| **lunghezza** | da 30 a 100 parole | da 5 a 25, o solo luogo e data nel registro muto |
+| **lunghezza** | da 30 a 100 parole | da 15 a 50 nel registro descrittivo, da 5 a 25 negli altri, o solo luogo e data nel muto |
 | **descrive?** | sì, è il suo compito | mai |
 | **dove finisce** | provino, sequenza, cluster, scarti, report, `testi.md` | sotto la fotografia stampata, nell'indice delle tavole |
 | **regole** | sezione 12 | sezioni 1, 2, 3 |
+| **contiene giudizi** | sì, è il suo mestiere | mai, per nessun motivo |
 
 La regola "il testo non descrive l'immagine" vale per la **didascalia**, non per la
 descrizione. Nella didascalia, se dici quello che si vede, il lettore lo legge, si
@@ -23,7 +24,7 @@ chiunque legga l'analisi senza avere le fotografie davanti.
 
 ## Indice
 
-1. I cinque registri di didascalia
+1. I sei registri di didascalia
 2. Un solo registro per progetto
 3. Come si scrive una didascalia
 4. Il titolo del libro
@@ -36,7 +37,7 @@ chiunque legga l'analisi senza avere le fotografie davanti.
 11. Il controllo automatico
 12. La descrizione di ogni immagine
 
-## 1. I cinque registri di didascalia
+## 1. I sei registri di didascalia
 
 Scegline uno per l'intero progetto e dichiaralo in `analisi.json`.
 
@@ -45,25 +46,47 @@ Quando: il progetto è autosufficiente, e l'ambizione è artistica più che
 documentaria. È il registro più difficile da sbagliare e quello che rispetta più il
 lettore. In dubbio, scegli questo.
 
-**2. Fattuale.** Cosa c'è, senza aggettivi, con precisione. "Il mercato di via
+**2. Descrittivo.** Racconta al lettore cosa sta guardando e in quale circostanza,
+in una frase compiuta. "Una ragazza in kimono prega con l'incenso fra le mani unite.
+A pochi passi, già fuori fuoco, un visitatore guarda lo schermo del telefono."
+Quando: libri e mostre in cui il lettore non conosce il contesto, lavori documentari,
+portfolio online, cataloghi, pubblicazioni divulgative. Da 15 a 50 parole, più luogo
+e data in coda.
+
+È l'unico registro in cui descrivere è consentito, ed è quello che quasi tutti i
+lettori si aspettano. Le due regole che lo tengono in piedi:
+
+- **nessun giudizio.** "La decisione è", "il gesto", "ottiene", "manca", "riesce",
+  "debole", "purtroppo" non entrano mai in una didascalia: il lettore del libro non
+  deve leggere la valutazione del photo editor. Quella sta nella descrizione di
+  lavoro, che non si pubblica.
+- **nessuna interpretazione imposta.** Descrivi la circostanza, non il significato.
+  Se scrivi cosa deve provare il lettore, gli togli la fotografia.
+
+Attenzione all'onestà: se un'immagine è stata modificata in modo che cambia ciò che
+il lettore crede di vedere (un colore virato, un cielo sostituito, un elemento
+tolto), la didascalia descrittiva è il posto giusto per dirlo, in una riga e senza
+scusarsi. Una descrizione che tace una manipolazione è una descrizione falsa.
+
+**3. Fattuale.** Cosa c'è, senza aggettivi, con precisione. "Il mercato di via
 Manzoni chiude alle 13. Alle 13.40 restano le cassette."
 Quando: reportage, documentario, progetti in cui l'informazione aggiunge peso. Il
 rischio è l'ovvio: il fatto citato deve essere qualcosa che **non** si vede.
 
-**3. Contestuale.** Aggiunge quello che la fotografia non può contenere: un nome, un
+**4. Contestuale.** Aggiunge quello che la fotografia non può contenere: un nome, un
 mestiere, una conseguenza, un prima o un dopo. "Ha aspettato l'autobus in questo
 punto per trentadue anni. La linea è stata soppressa in giugno."
 Quando: c'è un contenuto umano o sociale che la fotografia implica ma non dimostra.
 È il registro più potente e il più facile da rendere ricattatorio: se la didascalia
 costringe a commuoversi, cancellala.
 
-**4. Obliquo.** Un frammento che sta di lato: una frase sentita, un pensiero, un
+**5. Obliquo.** Un frammento che sta di lato: una frase sentita, un pensiero, un
 dettaglio irrilevante. "Diceva che l'acqua qui è più dura."
 Quando: progetti d'autore, sequenze poetiche, libri. Funziona solo se le frasi
 formano una loro linea leggibile a parte, come una voce. Se sono decorative si
 sente subito.
 
-**5. Citazionale.** Testi altrui: cartelli, insegne, avvisi, messaggi, atti,
+**6. Citazionale.** Testi altrui: cartelli, insegne, avvisi, messaggi, atti,
 documenti trovati nel luogo.
 Quando: c'è materiale testuale reale nel contesto. Ha una forza documentaria alta e
 costa poco, ma vale solo se le fonti sono vere: mai inventarne una.

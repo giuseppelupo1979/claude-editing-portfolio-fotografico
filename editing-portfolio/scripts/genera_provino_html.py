@@ -133,6 +133,9 @@ background:#00000040;padding:8px 12px;border-radius:5px;display:inline-block;mar
 .didcard{padding:0 9px 9px;font-size:11.5px;color:#b9b6b0;font-style:italic;line-height:1.45}
 .desccard{padding:2px 9px 10px;font-size:12px;color:#c6c4c0;line-height:1.55;
 border-top:1px solid var(--bordo);margin-top:2px;padding-top:8px}
+.etich{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:.9px;
+color:#6b6d73;margin-bottom:4px;font-style:normal}
+.etich.pub{color:var(--accento)}
 .descpanel{margin:10px 0 2px;font-size:13.5px;line-height:1.65;color:#dcdad6}
 .descseq{margin-top:7px;font-size:11.5px;color:#8e8c88;line-height:1.5;max-width:92%;
 text-align:left}
@@ -231,9 +234,9 @@ function disegnaGriglia(){
       <div class="riga2">${i.verdetto ? '<span class="tag">' + i.verdetto + '</span>' : ''}
         ${i.ruolo ? '<span class="tag">' + i.ruolo + '</span>' : ''}
         ${i.cieco ? '<span class="tag">' + i.cieco + '</span>' : ''}</div>
-      ${i.didascalia ? '<div class="didcard">' + i.didascalia + '</div>' : ''}
-      ${i.descrizione ? '<div class="desccard">' + i.descrizione + '</div>'
-                      : '<div class="descmanca">descrizione mancante</div>'}
+      ${i.didascalia ? '<div class="didcard"><span class="etich pub">didascalia da pubblicare</span>' + i.didascalia + '</div>' : ''}
+      ${i.descrizione ? '<div class="desccard"><span class="etich">lettura di lavoro, non pubblicare</span>' + i.descrizione + '</div>'
+                      : '<div class="descmanca">lettura di lavoro mancante</div>'}
     </div>`).join('') || '<div class="vuoto">Nessuna immagine con questi filtri.</div>';
 }
 function apri(id){
@@ -242,8 +245,8 @@ function apri(id){
     <img src="${i.grande || i.mini}" alt="${i.id}">
     <h3 style="margin:14px 0 2px">${i.titolo || i.file}</h3>
     <div class="ident">${i.id} &middot; ${i.file}${i.genere ? ' &middot; ' + i.genere : ''}</div>
-    ${i.descrizione ? '<div class="descpanel">' + i.descrizione + '</div>' : '<div class="didpanel manca">descrizione mancante</div>'}
-    ${i.didascalia ? '<div class="didpanel">' + i.didascalia + '</div>' : ''}
+    ${i.didascalia ? '<div class="didpanel"><span class="etich pub">didascalia da pubblicare</span>' + i.didascalia + '</div>' : ''}
+    ${i.descrizione ? '<div class="descpanel"><span class="etich">lettura di lavoro, non pubblicare</span>' + i.descrizione + '</div>' : '<div class="didpanel manca">lettura di lavoro mancante</div>'}
     <div class="assi">${ASSI.map(a => {
       const v = (i.voti || {})[a];
       return `<div class="asse"><span>${a}</span><span class="tratto"><i style="width:${(v || 0) * 10}%"></i></span><span>${v ?? '-'}</span></div>`;
@@ -272,7 +275,7 @@ function pagina(id, lato){
   if (!i) return `<div class="pagina ${lato}"><span class="bianca">${id} assente</span></div>`;
   return `<div class="pagina ${lato}"><img src="${i.grande || i.mini}" alt="${id}">
     <div class="didasc"><span class="ident">${id}</span>${i.didascalia ? ' &middot; ' + i.didascalia : ''}
-    ${i.descrizione ? '<div class="descseq">' + i.descrizione + '</div>' : ''}</div></div>`;
+    ${i.descrizione ? '<div class="descseq"><span class="etich">lettura di lavoro, non va nel libro</span>' + i.descrizione + '</div>' : ''}</div></div>`;
 }
 function disegnaSequenza(){
   const s = (D.sequenza && D.sequenza.spread) || [];
@@ -293,7 +296,8 @@ function disegnaCluster(){
       <div class="scheda" onclick="apri('${id}')"><div class="im"><img src="${per[id].mini}"></div>
       <div class="piede"><span class="ident">${id}</span>
       <span class="voto ${classe(per[id].p_libro)}">${per[id].p_libro.toFixed(1)}</span></div>
-      ${per[id].descrizione ? '<div class="desccard">' + per[id].descrizione + '</div>' : ''}</div>` : '').join('')}</div></div>`
+      ${per[id].didascalia ? '<div class="didcard"><span class="etich pub">didascalia</span>' + per[id].didascalia + '</div>' : ''}
+      ${per[id].descrizione ? '<div class="desccard"><span class="etich">lettura di lavoro</span>' + per[id].descrizione + '</div>' : ''}</div>` : '').join('')}</div></div>`
   ).join('');
 }
 function conta(t){ return (String(t||'').match(/[\wàèéìòùÀÈÉÌÒÙ']+/g) || []).length; }
@@ -331,8 +335,8 @@ function disegnaTesti(){
   }
   const conDesc = D.immagini.filter(i => i.descrizione);
   if (conDesc.length){
-    h += '<h3>Descrizioni <span class="conta">' + conDesc.length + ' su ' + D.immagini.length +
-         ' immagini</span></h3>';
+    h += '<h3>Letture di lavoro <span class="conta">' + conDesc.length + ' su ' + D.immagini.length +
+         ' immagini, non vanno nella pubblicazione</span></h3>';
     h += conDesc.map(i => '<div class="tav"><b>' + i.id + '</b><span style="font-style:normal">' +
       segna(i.descrizione) + '</span></div>').join('');
   }
@@ -347,7 +351,7 @@ function disegnaScarti(){
     return `<div class="scheda" onclick="apri('${x.id}')"><div class="im"><img src="${i.mini}"></div>
       <div class="piede"><span class="ident">${x.id}</span></div>
       <div class="riga2">${x.motivo || ''}</div>
-      ${i.descrizione ? '<div class="desccard">' + i.descrizione + '</div>' : ''}</div>`;
+      ${i.descrizione ? '<div class="desccard"><span class="etich">lettura di lavoro</span>' + i.descrizione + '</div>' : ''}</div>`;
   }).join('') + '</div>';
 }
 function disegnaDati(){
