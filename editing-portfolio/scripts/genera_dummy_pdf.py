@@ -118,8 +118,11 @@ class Libro:
             largh = self.pw - self.margine - self.piega
         return x0, self.margine, largh, self.ph - 2 * self.margine
 
-    def posa(self, tela, d, percorso, lato, didascalia, ident, con_didasc):
+    def posa(self, tela, d, percorso, lato, didascalia, ident, con_didasc,
+             quante=1, indice=0):
         x0, y0, largh, alt = self.riquadro(lato)
+        alt = alt // quante
+        y0 = y0 + alt * indice
         area_h = int(alt * (0.84 if con_didasc else 0.94))
         try:
             with Image.open(percorso) as im:
@@ -184,16 +187,18 @@ class Libro:
 
     def spread(self, sx, dx, per_id, base, con_didasc, numero, usa_descrizione=False):
         tela, d = self.nuova()
-        for lato, ident in (("sx", sx), ("dx", dx)):
-            if not ident:
+        for lato, val in (("sx", sx), ("dx", dx)):
+            if not val:
                 continue
-            im = per_id.get(ident)
-            if not im:
-                continue
-            rel = im.get("thumb") or im.get("file")
-            p = rel if os.path.isabs(rel) else os.path.join(base, rel)
-            testo = im.get("descrizione", "") if usa_descrizione else im.get("didascalia", "")
-            self.posa(tela, d, p, lato, testo, ident, con_didasc)
+            identi = val if isinstance(val, list) else [val]
+            for k, ident in enumerate(identi):
+                im = per_id.get(ident)
+                if not im:
+                    continue
+                rel = im.get("thumb") or im.get("file")
+                p = rel if os.path.isabs(rel) else os.path.join(base, rel)
+                testo = im.get("descrizione", "") if usa_descrizione else im.get("didascalia", "")
+                self.posa(tela, d, p, lato, testo, ident, con_didasc, len(identi), k)
         d.text((self.margine, self.ph - self.margine + int(self.ph * 0.012)),
                "%d" % (numero * 2), font=self.f_mini, fill=(206, 204, 200))
         larg_num = d.textlength("%d" % (numero * 2 + 1), font=self.f_mini)
@@ -286,7 +291,11 @@ def main():
         libro.testo_pagina("Nota", prog["statement"])
     if prog.get("fil_rouge"):
         libro.testo_pagina("Filo", prog["fil_rouge"])
-    usate = [x for c in sequenza for x in c if x]
+    usate = []
+    for c in sequenza:
+        for pag in c:
+            if pag:
+                usate.extend(pag if isinstance(pag, list) else [pag])
     voci = []
     for k, ident in enumerate(usate, 1):
         im = per_id.get(ident, {})

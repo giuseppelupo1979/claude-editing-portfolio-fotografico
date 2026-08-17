@@ -73,6 +73,17 @@ MESI = ("gennaio febbraio marzo aprile maggio giugno luglio agosto settembre "
 ASSI_ORDINE = ("sequenza", "galleria", "id")
 
 
+def scorri(spread):
+    """Gli id di una sequenza, anche quando una pagina ne contiene piu' di uno."""
+    fuori = []
+    for coppia in spread or []:
+        for pagina in coppia:
+            if not pagina:
+                continue
+            fuori.extend(pagina if isinstance(pagina, list) else [pagina])
+    return fuori
+
+
 def parole(t):
     return re.findall(r"[\wàèéìòùÀÈÉÌÒÙ']+", (t or "").lower())
 
@@ -85,7 +96,7 @@ def trova(testo, elenco):
 def ordine_tavole(dati):
     seq = (dati.get("sequenza") or {}).get("spread")
     if seq:
-        return [x for coppia in seq for x in coppia if x], "sequenza"
+        return scorri(seq), "sequenza"
     gall = dati.get("gallerie") or []
     if gall and gall[0].get("ordine"):
         return list(gall[0]["ordine"]), "galleria"

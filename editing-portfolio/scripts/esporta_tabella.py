@@ -29,6 +29,17 @@ PESI = {
 }
 
 
+def scorri(spread):
+    """Gli id di una sequenza, anche quando una pagina ne contiene piu' di uno."""
+    fuori = []
+    for coppia in spread or []:
+        for pagina in coppia:
+            if not pagina:
+                continue
+            fuori.extend(pagina if isinstance(pagina, list) else [pagina])
+    return fuori
+
+
 def punteggio(voti, pesi):
     tot = sum(pesi.values())
     acc = 0.0
@@ -70,7 +81,7 @@ def main():
             print("Attenzione: %s senza voti su %s" % (im["id"], ", ".join(mancanti)))
 
     for chiave, elenco in (
-        ("sequenza.spread", [x for coppia in (dati.get("sequenza", {}).get("spread") or []) for x in coppia]),
+        ("sequenza.spread", scorri(dati.get("sequenza", {}).get("spread"))),
         ("cluster", [i for c in (dati.get("cluster") or []) for i in c.get("immagini", [])]),
         ("gallerie", [i for g in (dati.get("gallerie") or []) for i in g.get("ordine", [])]),
         ("scarti", [s.get("id") for s in (dati.get("scarti") or [])]),
@@ -164,13 +175,20 @@ def main():
             wsq = wb.create_sheet("sequenza")
             wsq.append(["spread", "pagina sinistra", "pagina destra", "ruolo sx", "ruolo dx"])
             per_id = {im["id"]: im for im in immagini}
+            def etichetta(pag):
+                if not pag:
+                    return "(bianca)"
+                return " + ".join(pag) if isinstance(pag, list) else pag
+
+            def ruoli(pag):
+                if not pag:
+                    return ""
+                ids = pag if isinstance(pag, list) else [pag]
+                return " + ".join((per_id.get(i, {}) or {}).get("ruolo", "") for i in ids)
+
             for n, coppia in enumerate(seq, 1):
                 sx, dx = (list(coppia) + [None, None])[:2]
-                wsq.append([
-                    n, sx or "(bianca)", dx or "(bianca)",
-                    (per_id.get(sx or "", {}) or {}).get("ruolo", ""),
-                    (per_id.get(dx or "", {}) or {}).get("ruolo", ""),
-                ])
+                wsq.append([n, etichetta(sx), etichetta(dx), ruoli(sx), ruoli(dx)])
             for c in range(1, 6):
                 wsq.cell(row=1, column=c).font = Font(bold=True)
 

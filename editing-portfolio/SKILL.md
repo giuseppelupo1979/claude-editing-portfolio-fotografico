@@ -283,6 +283,9 @@ giudicare, gli script fanno i conti e l'impaginazione. Struttura minima:
     "statement": "da 60 a 120 parole, altra cosa dall'introduzione",
     "nota_autore": "opzionale, da 80 a 150 parole",
     "registro_didascalie": "descrittivo",
+    "copertina": "P007",
+    "copertina_motivazione": "perché questa e non l'apertura",
+    "copertina_alternative": [{"id": "P011", "motivazione": "una riga"}],
     "cartella_thumbs": "thumbs"
   },
   "immagini": [
@@ -312,7 +315,12 @@ giudicare, gli script fanno i conti e l'impaginazione. Struttura minima:
      "immagini": ["P007", "P011"], "forza": 8}
   ],
   "sequenza": {
-    "spread": [["P003", null], ["P007", "P011"], [null, "P020"]]
+    "spread": [["P003", null], ["P007", "P011"], [null, ["P020", "P021"]]],
+    "ritmo": "A= M+ B-",
+    "ritmo_perche": "perché questa forma e non un'altra, ricavata dal materiale",
+    "alternative": [
+      {"nome": "Alternata a picchi", "ritmo": "A= M- A+ B-", "perche": "perché l'ho scartata"}
+    ]
   },
   "scarti": [{"id": "P010", "motivo": "ridondante con P007, più debole sui bordi"}],
   "gallerie": [
@@ -322,9 +330,23 @@ giudicare, gli script fanno i conti e l'impaginazione. Struttura minima:
 ```
 
 Regole: gli `id` sono quelli assegnati da `prepara_provino.py` e non si cambiano.
-In `spread` un `null` è una pagina bianca (il respiro, e serve). Ogni immagine
-citata in `sequenza`, `cluster` o `gallerie` deve esistere in `immagini`, e gli
-script si fermano se non è così.
+In `spread` un `null` è una pagina bianca (il respiro, e serve). Una pagina può
+contenere **più immagini**: si scrive come lista, `["P020", "P021"]`, e va usata solo
+quando le fotografie si leggono insieme e il senso nasce dall'accostamento, mai per
+far entrare più materiale. Ogni immagine citata in `sequenza`, `cluster` o `gallerie`
+deve esistere in `immagini`, e gli script si fermano se non è così.
+
+**La copertina è una scelta separata dall'apertura**, e va sempre proposta con la sua
+motivazione e due alternative. Criteri: deve funzionare fuori contesto, ridotta a
+pochi centimetri, con il titolo stampato sopra, quindi ha bisogno di una zona
+tipograficamente pulita. Quasi mai è la fotografia migliore e quasi mai è la prima
+della sequenza: l'apertura lavora dentro il libro, la copertina lavora prima che il
+libro sia aperto. Se proponi la stessa immagine per entrambe, giustifica il perché.
+
+**Il ritmo va spiegato, non solo dichiarato.** Insieme alla stringa scrivi
+`ritmo_perche` (perché questa forma è quella che il materiale consente) e almeno due
+`alternative` scartate, ciascuna con la sua stringa e il motivo del rifiuto. Una
+sequenza senza alternative dichiarate sembra l'unica possibile, e non lo è mai.
 
 ## Gli script
 
@@ -342,6 +364,14 @@ Il provino HTML è il deliverable che l'utente riaprirà: quando lo consegni con
 SendUserFile, e c'è un desktop collegato, persistilo anche come artifact. Resta
 comunque da scrivere anche nella cartella `_analisi` (vedi F6): l'artifact vive nella
 app, il file vive accanto alle fotografie, e servono entrambi.
+
+**La pagina si spiega da sola.** Ogni sezione del provino si apre con la spiegazione
+di cosa è e come si legge, i punteggi mostrano voti, pesi e conto al passaggio del
+mouse, il ritmo ha la sua legenda, i nomi dei file mostrano l'anteprima. È un vincolo
+di progetto, non un dettaglio: l'utente riaprirà quel file fra sei mesi senza avere
+sotto mano questa conversazione, e nessun elemento deve richiedere una fonte esterna
+per essere capito. Se aggiungi un indicatore nuovo, aggiungi anche la sua spiegazione
+nella pagina.
 
 ## Format lock per modalità
 
