@@ -566,7 +566,7 @@ classificare bene le foto, ha funzionato a metà.
 
 <!-- INIZIO INVENTARIO: generato da build-skill.sh, non modificare a mano -->
 
-**Versione 2026-08-20.3.** Oltre a questo SKILL.md, la skill è composta dai file
+**Versione 2026-08-20.2.** Oltre a questo SKILL.md, la skill è composta dai file
 qui sotto, e li vuole tutti.
 
 | File | Byte |

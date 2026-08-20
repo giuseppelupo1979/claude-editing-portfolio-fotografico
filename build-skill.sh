@@ -9,12 +9,26 @@
 #
 # Poi: git add -A && git commit && git push
 # E infine, il passo che si dimentica: ricaricare il .skill nella app di Claude.
+#
+# Due proprietà, entrambe imparate rompendole:
+#
+#   1. La versione si incrementa solo se il contenuto è cambiato davvero.
+#      Altrimenti due build a vuoto producono due numeri diversi per la stessa
+#      skill, e il repository comincia a dichiarare una versione che nessun
+#      pacchetto ha mai avuto.
+#
+#   2. VERSIONE e SKILL.md si scrivono solo dopo che il pacchetto è stato
+#      creato. Se lo script muore a metà (è successo: `rm` vietato su un
+#      filesystem montato in sola scrittura), i sorgenti restano coerenti col
+#      pacchetto invece di dichiarare una versione mai impacchettata.
 
 set -euo pipefail
 
 CARTELLA="editing-portfolio"
 PACCHETTO="editing-portfolio.skill"
 SKILLMD="$CARTELLA/SKILL.md"
+INIZIO="<!-- INIZIO INVENTARIO: generato da build-skill.sh, non modificare a mano -->"
+FINE="<!-- FINE INVENTARIO -->"
 
 cd "$(dirname "$0")"
 
@@ -22,19 +36,45 @@ if [ ! -f "$SKILLMD" ]; then
   echo "Errore: $SKILLMD non trovato. Esegui lo script dalla radice del repository." >&2
   exit 1
 fi
-
-# --- versione: data di oggi più il progressivo del giorno -------------------
-OGGI=$(date +%Y-%m-%d)
-PROG=1
-if [ -f VERSIONE ]; then
-  PRECEDENTE=$(head -1 VERSIONE | tr -d ' ')
-  if [[ "$PRECEDENTE" == "$OGGI".* ]]; then
-    PROG=$(( ${PRECEDENTE##*.} + 1 ))
-  fi
+if ! grep -qF "$INIZIO" "$SKILLMD" || ! grep -qF "$FINE" "$SKILLMD"; then
+  echo "Errore: marcatori dell'inventario non trovati in $SKILLMD." >&2
+  echo "Ripristina la sezione 'Versione e integrità' prima di rilanciare." >&2
+  exit 1
 fi
-VERSIONE="$OGGI.$PROG"
 
-# --- inventario: un file per riga, con le dimensioni ------------------------
+# --- impronta del contenuto, esclusa la riga di versione ---------------------
+# Serve a non incrementare il numero quando non è cambiato niente.
+impronta() {
+  {
+    grep -v '^\*\*Versione 2026' "$SKILLMD"
+    find "$CARTELLA/references" "$CARTELLA/scripts" -type f \
+         \( -name '*.md' -o -name '*.py' -o -name '*.html' \) \
+      | LC_ALL=C sort | xargs cat
+  } | shasum -a 256 | cut -c1-12
+}
+IMPRONTA=$(impronta)
+
+VERSIONE_PRECEDENTE=""
+IMPRONTA_PRECEDENTE=""
+if [ -f VERSIONE ]; then
+  VERSIONE_PRECEDENTE=$(awk 'NR==1{print $1}' VERSIONE)
+  IMPRONTA_PRECEDENTE=$(awk 'NR==2{print $1}' VERSIONE)
+fi
+
+if [ -n "$IMPRONTA_PRECEDENTE" ] && [ "$IMPRONTA" = "$IMPRONTA_PRECEDENTE" ]; then
+  VERSIONE="$VERSIONE_PRECEDENTE"
+  CAMBIATO="no"
+else
+  OGGI=$(date +%Y-%m-%d)
+  PROG=1
+  if [[ "$VERSIONE_PRECEDENTE" == "$OGGI".* ]]; then
+    PROG=$(( ${VERSIONE_PRECEDENTE##*.} + 1 ))
+  fi
+  VERSIONE="$OGGI.$PROG"
+  CAMBIATO="si"
+fi
+
+# --- inventario ---------------------------------------------------------------
 INVENTARIO=$(mktemp)
 {
   echo "**Versione $VERSIONE.** Oltre a questo SKILL.md, la skill è composta dai file"
@@ -49,36 +89,43 @@ INVENTARIO=$(mktemp)
         printf "| \`%s\` | %s |\n" "${f#"$CARTELLA"/}" "$(wc -c < "$f" | tr -d ' ')"
       done
 } > "$INVENTARIO"
-
 N_FILE=$(grep -c '^| `' "$INVENTARIO")
 
-# --- sostituzione fra i marcatori, senza toccare il resto -------------------
-python3 - "$SKILLMD" "$INVENTARIO" <<'PY'
+# --- si scrive su una copia, si sostituisce solo alla fine --------------------
+TEMP_SKILLMD=$(mktemp)
+python3 - "$SKILLMD" "$INVENTARIO" "$TEMP_SKILLMD" "$INIZIO" "$FINE" <<'PY'
 import sys, re
-skillmd, inventario = sys.argv[1], sys.argv[2]
-testo = open(skillmd, encoding="utf-8").read()
+sorgente, inventario, destinazione, inizio, fine = sys.argv[1:6]
+testo = open(sorgente, encoding="utf-8").read()
 nuovo = open(inventario, encoding="utf-8").read().strip()
-inizio = "<!-- INIZIO INVENTARIO: generato da build-skill.sh, non modificare a mano -->"
-fine = "<!-- FINE INVENTARIO -->"
-if inizio not in testo or fine not in testo:
-    sys.exit("Errore: marcatori dell'inventario non trovati in SKILL.md. "
-             "Ripristina la sezione 'Versione e integrità'.")
 testo = re.sub(re.escape(inizio) + r".*?" + re.escape(fine),
                inizio + "\n\n" + nuovo + "\n\n" + fine, testo, flags=re.S)
-open(skillmd, "w", encoding="utf-8").write(testo)
+open(destinazione, "w", encoding="utf-8").write(testo)
 PY
 
-echo "$VERSIONE" > VERSIONE
-rm -f "$INVENTARIO"
+TEMP_PACCHETTO=$(mktemp -u).zip
+cp "$TEMP_SKILLMD" "$SKILLMD"
+if ! zip -q -r -X "$TEMP_PACCHETTO" "$CARTELLA" \
+        -x '*.DS_Store' -x '*__pycache__*' -x '*.pyc'; then
+  echo "Errore: creazione del pacchetto fallita. VERSIONE non aggiornata." >&2
+  exit 1
+fi
 
-# --- pacchetto ---------------------------------------------------------------
-rm -f "$PACCHETTO"
-zip -q -r -X "$PACCHETTO" "$CARTELLA" \
-  -x '*.DS_Store' -x '*__pycache__*' -x '*.pyc'
+mv -f "$TEMP_PACCHETTO" "$PACCHETTO"
+printf '%s\n%s\n' "$VERSIONE" "$IMPRONTA" > VERSIONE
+rm -f "$INVENTARIO" "$TEMP_SKILLMD"
 
-echo "Versione:  $VERSIONE"
-echo "File:      $N_FILE nella skill"
+echo "Versione:  $VERSIONE  (contenuto cambiato: $CAMBIATO)"
+echo "Impronta:  $IMPRONTA"
+echo "File:      $N_FILE oltre a SKILL.md"
 echo "Pacchetto: $PACCHETTO ($(wc -c < "$PACCHETTO" | tr -d ' ') byte)"
+
+if [ "$CAMBIATO" = "no" ]; then
+  echo
+  echo "Niente è cambiato dai sorgenti: versione e pacchetto restano quelli."
+  exit 0
+fi
+
 echo
 echo "Ora, nell'ordine:"
 echo "  1. git add -A && git commit -m \"...\" && git push"
