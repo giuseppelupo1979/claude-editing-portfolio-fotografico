@@ -85,6 +85,36 @@ concorsi. Non serve richiamarla per nome.
 Ogni script funziona anche fuori dalla skill, come utility a riga di comando. Vedi la
 [sezione 9](#9-i-cinque-script).
 
+### Aggiornare la skill: il passo che si dimentica
+
+**Aggiornare il repository non aggiorna la skill installata.** Sono due copie
+distinte: il repository avanza a ogni commit, l'account di Claude resta fermo
+all'ultimo pacchetto `.skill` caricato a mano. Da dentro una conversazione questa
+differenza non si vede, e il risultato è una sessione che lavora con regole vecchie
+convinta di avere quelle nuove.
+
+È già successo, il 17 agosto 2026: il repository era arrivato al commit `d06feca`
+con le descrizioni per immagine, il registro descrittivo e il provino che si spiega
+da solo, mentre l'account aveva ancora il pacchetto di undici ore prima. Una sessione
+ha prodotto un editing senza didascalie e senza letture di lavoro, e il difetto è
+emerso solo dal confronto con un provino precedente.
+
+Perciò, dopo ogni modifica, tre passi in quest'ordine:
+
+```bash
+./build-skill.sh                                   # 1. rigenera pacchetto e inventario
+git add -A && git commit -m "..." && git push      # 2. pubblica i sorgenti
+```
+
+3. Apri le impostazioni delle skill nell'app di Claude e **ricarica
+   `editing-portfolio.skill`**.
+
+Lo script `build-skill.sh` assegna una versione (data più progressivo, scritta in
+`VERSIONE`), rigenera il pacchetto e riscrive l'inventario dei file dentro
+`SKILL.md`. Quell'inventario è la rete di sicurezza: all'inizio di ogni lavoro la
+skill si autoverifica confrontando i file presenti con l'elenco dichiarato, e se ne
+manca uno si ferma invece di improvvisare.
+
 ---
 
 ## 3. Come si usa, in pratica

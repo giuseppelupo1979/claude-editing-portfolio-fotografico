@@ -53,6 +53,22 @@ Non è una raccomandazione: è l'ordine che impedisce i tre errori tipici (giudi
 prima di aver guardato tutto, costruire la tesi sulle foto preferite, confondere
 impressione e misura).
 
+**F0. Controllo di integrità.** Prima di tutto, un comando solo:
+
+```bash
+ls scripts/ references/
+```
+
+Confrontalo con l'inventario in fondo a questo file, sezione *Versione e
+integrità*. Se manca anche un solo file, **stai lavorando su una copia vecchia o
+incompleta della skill**: fermati, dillo all'utente in una riga citando cosa manca,
+e chiedi di reinstallare il pacchetto `editing-portfolio.skill` dal repo. Non
+proseguire ricostruendo a mano il pezzo mancante: produrresti un lavoro che sembra
+completo e non lo è, e l'utente se ne accorgerebbe solo alla consegna.
+
+Il costo del controllo sono due secondi. Il costo di saltarlo è un editing intero
+da rifare.
+
 **F1. Ingestione e misura.** Porta le immagini nello spazio di lavoro ed esegui
 `scripts/prepara_provino.py`. Ottieni miniature, griglie di provino etichettate,
 metriche numeriche reali e le coppie visivamente simili. Leggi
@@ -545,3 +561,64 @@ proprio lavoro che lui non poteva sapere. Non un difetto in più su una foto: un
 pattern che attraversa l'insieme, una tesi che non aveva visto, o la ragione per
 cui due immagini che ama si annullano a vicenda. Se il report si limita a
 classificare bene le foto, ha funzionato a metà.
+
+## Versione e integrità
+
+<!-- INIZIO INVENTARIO: generato da build-skill.sh, non modificare a mano -->
+
+**Versione 2026-08-20.3.** Oltre a questo SKILL.md, la skill è composta dai file
+qui sotto, e li vuole tutti.
+
+| File | Byte |
+|---|---|
+| `references/autodiagnosi.md` | 12399 |
+| `references/canone-editing.md` | 14294 |
+| `references/connettori.md` | 11117 |
+| `references/destinazioni.md` | 8477 |
+| `references/didascalie.md` | 22132 |
+| `references/ingestione.md` | 13050 |
+| `references/sequenza.md` | 17235 |
+| `scripts/esporta_tabella.py` | 9655 |
+| `scripts/genera_dummy_pdf.py` | 13975 |
+| `scripts/genera_provino_html.py` | 41645 |
+| `scripts/genera_testi.py` | 19508 |
+| `scripts/prepara_provino.py` | 20132 |
+
+<!-- FINE INVENTARIO -->
+
+**Come si usa.** In F0 esegui `ls scripts/ references/` e confronta con l'elenco
+qui sopra. Se combacia, la skill è integra e puoi lavorare. Se manca un file, la
+copia è vecchia: fermati e chiedi all'utente di reinstallare il pacchetto.
+
+**Perché esiste questa sezione.** Una skill installata in un account e una skill
+in un repository sono due cose diverse, e possono andare fuori sincronia senza che
+nessuno se ne accorga: il repository avanza a ogni commit, l'account resta fermo
+all'ultimo pacchetto caricato. Da dentro una sessione non si vedono i commit, si
+vedono solo i file. Quindi il controllo non può essere sulla data: deve essere
+sull'inventario, che è l'unica cosa osservabile.
+
+È già successo: una sessione ha lavorato con una copia priva di `genera_testi.py`
+e delle regole sui due testi per immagine, ha prodotto un editing senza didascalie
+e senza letture di lavoro, e il difetto è emerso solo quando l'utente ha
+confrontato il risultato con un provino precedente. F0 esiste per rendere quel
+fallimento impossibile.
+
+## Rilascio
+
+Chi modifica questa skill esegue, dalla radice del repository:
+
+```bash
+./build-skill.sh
+```
+
+Lo script rigenera `editing-portfolio.skill`, aggiorna l'inventario qui sopra e
+stampa cosa è cambiato. Poi si committa **sia** i sorgenti **sia** il pacchetto:
+
+```bash
+git add -A && git commit -m "..." && git push
+```
+
+**Terzo passo, quello che si dimentica:** aprire le impostazioni delle skill nella
+app di Claude e ricaricare `editing-portfolio.skill`. Finché non lo fai, le
+sessioni continuano a usare la versione precedente, e il repository aggiornato non
+serve a niente.
